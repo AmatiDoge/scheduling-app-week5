@@ -1,11 +1,11 @@
 export const TEAM = ['נועה', 'קרן', 'יובל', 'שירה']
 
 export const DAYS = [
-  { key: 'sun', label: 'ראשון', date: '6.7' },
-  { key: 'mon', label: 'שני', date: '7.7' },
-  { key: 'tue', label: 'שלישי', date: '8.7' },
-  { key: 'wed', label: 'רביעי', date: '9.7' },
-  { key: 'thu', label: 'חמישי', date: '10.7' },
+  { key: 'sun', label: 'ראשון', date: '5.7' },
+  { key: 'mon', label: 'שני', date: '6.7' },
+  { key: 'tue', label: 'שלישי', date: '7.7' },
+  { key: 'wed', label: 'רביעי', date: '8.7' },
+  { key: 'thu', label: 'חמישי', date: '9.7' },
 ]
 
 const WEEKDAY_SLOTS = [

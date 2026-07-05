@@ -48,7 +48,7 @@ export default function App() {
   return (
     <div className="app">
       <h1>שיבוץ ניסויים — שבוע 5</h1>
-      <p className="subtitle">6–10 יולי 2026 | מינימום {MIN_SLOTS} שיבוצים לאדם</p>
+      <p className="subtitle">5–9 יולי 2026 | מינימום {MIN_SLOTS} שיבוצים לאדם</p>
 
       <div className="name-select">
         {TEAM.map(name => (
