@@ -28,14 +28,17 @@ export default function App() {
     if (!selected) return
     const mine = bookings.find(b => b.slot_id === slotId && b.person === selected)
     if (mine) {
-      await supabase.from(TABLE).delete().eq('id', mine.id)
+      await supabase.from(TABLE).delete().match({ slot_id: slotId, person: selected })
     } else {
-      await supabase.from(TABLE).insert({ slot_id: slotId, person: selected })
+      await supabase.from(TABLE).upsert(
+        { slot_id: slotId, person: selected },
+        { onConflict: 'slot_id,person', ignoreDuplicates: true }
+      )
     }
   }
 
-  const slotPeople = (slotId) => bookings.filter(b => b.slot_id === slotId).map(b => b.person)
-  const myCount = bookings.filter(b => b.person === selected).length
+  const slotPeople = (slotId) => [...new Set(bookings.filter(b => b.slot_id === slotId).map(b => b.person))]
+  const myCount = new Set(bookings.filter(b => b.person === selected).map(b => b.slot_id)).size
 
   return (
     <div className="app">
