@@ -26,15 +26,20 @@ export default function App() {
 
   const toggleSlot = async (slotId) => {
     if (!selected) return
-    const mine = bookings.find(b => b.slot_id === slotId && b.person === selected)
-    if (mine) {
-      await supabase.from(TABLE).delete().match({ slot_id: slotId, person: selected })
-    } else {
+    // Toggle against the DB itself (not local state, which can lag):
+    // try to delete first; if nothing was deleted, this is a new booking.
+    const { data: deleted } = await supabase.from(TABLE)
+      .delete()
+      .match({ slot_id: slotId, person: selected })
+      .select()
+    if (!deleted || deleted.length === 0) {
       await supabase.from(TABLE).upsert(
         { slot_id: slotId, person: selected },
         { onConflict: 'slot_id,person', ignoreDuplicates: true }
       )
     }
+    const { data } = await supabase.from(TABLE).select('*')
+    setBookings(data || [])
   }
 
   const slotPeople = (slotId) => [...new Set(bookings.filter(b => b.slot_id === slotId).map(b => b.person))]
